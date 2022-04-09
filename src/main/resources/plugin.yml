@@ -1,0 +1,3 @@
+name: PluginUtils
+version: '${project.version}'
+main: ru.winlocker.utils.Utils
