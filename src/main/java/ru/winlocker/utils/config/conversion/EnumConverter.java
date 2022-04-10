@@ -1,5 +1,9 @@
 package ru.winlocker.utils.config.conversion;
 
+import com.google.common.base.*;
+
+import java.util.*;
+
 /**
  * A converter which converts enum values
  * @author Redempt
@@ -17,7 +21,7 @@ public class EnumConverter {
 		return new StringConverter<T>() {
 			@Override
 			public T fromString(String str) {
-				return str == null ? null : (T) Enum.valueOf(enumClass, str);
+				return (T) Enums.getIfPresent(enumClass, str.toUpperCase(Locale.ROOT)).orNull();
 			}
 			
 			@Override
