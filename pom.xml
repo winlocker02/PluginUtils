@@ -39,12 +39,16 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-<!--                            <relocations>-->
-<!--                                <relocation>-->
-<!--                                    <pattern>com.github.cryptomorin</pattern>-->
-<!--                                    <shadedPattern>ru.winlocker.utils.xseries</shadedPattern>-->
-<!--                                </relocation>-->
-<!--                            </relocations>-->
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.cryptomorin.xseries</pattern>
+                                    <shadedPattern>ru.winlocker.utils.xseries</shadedPattern>
+                                    <includes>
+                                        <include>com.cryptomorin.xseries.**</include>
+                                    </includes>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -86,7 +90,6 @@
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
             <version>LATEST</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

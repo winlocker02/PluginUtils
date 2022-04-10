@@ -99,6 +99,7 @@ public class Utils {
         if (seconds > 0) {
             builder.append(getString("time.seconds").replace("{size}", String.valueOf(seconds))).append(" ");
         }
+
         final String format = builder.toString().trim().isEmpty() ? getString("time.now") : builder.toString().trim();
         return color(format);
     }
