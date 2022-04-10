@@ -1,5 +1,6 @@
 package ru.winlocker.utils;
 
+import com.cryptomorin.xseries.*;
 import lombok.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
@@ -11,6 +12,8 @@ import java.util.*;
 import java.util.stream.*;
 
 public class Utils {
+
+    public static final XMaterial MATERIAL = XMaterial.APPLE;
 
     public static final String VERSION;
     private static DecimalFormat decimalFormat;
