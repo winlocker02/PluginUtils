@@ -7,11 +7,11 @@ import java.util.*;
 
 @Getter
 @ConfigMappable
-public class TimeUtils {
+public class TimeFormatter {
 
-    @ConfigName("time.formats")
+    @ConfigName("formats")
     private final Map<TimeType, String> formats = new HashMap<>();
-    @ConfigName("time.excludes")
+    @ConfigName("excludes")
     private final List<TimeType> excludes = new ArrayList<>();
 
     public String format(@NonNull Number number) {
