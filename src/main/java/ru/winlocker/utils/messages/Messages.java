@@ -31,7 +31,7 @@ public class Messages {
                 }
 
                 if(message != null) {
-                    String keyMessage = configuration.getCurrentPath();
+                    String keyMessage = configuration.getCurrentPath().replace(configuration.getName(), "");
 
                     if(keyMessage.isEmpty()) {
                         keyMessage = key;
