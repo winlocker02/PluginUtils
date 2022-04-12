@@ -24,19 +24,19 @@ public class TimeFormatter {
 
         val stringBuilder = new StringBuilder();
 
-        if(days > 0 && (!excludes.contains(TimeType.DAYS) && formats.containsKey(TimeType.DAYS))) {
+        if(days > 0 && !excludes.contains(TimeType.DAYS) && formats.containsKey(TimeType.DAYS)) {
             stringBuilder.append(formats.get(TimeType.DAYS).replace("{size}", Utils.numberFormat(days))).append(" ");
         }
 
-        if(hours > 0 && (!excludes.contains(TimeType.HOURS) && formats.containsKey(TimeType.HOURS))) {
+        if(hours > 0 && !excludes.contains(TimeType.HOURS) && formats.containsKey(TimeType.HOURS)) {
             stringBuilder.append(formats.get(TimeType.HOURS).replace("{size}", Utils.numberFormat(hours))).append(" ");
         }
 
-        if(minutes > 0 && (!excludes.contains(TimeType.MINUTES) && formats.containsKey(TimeType.MINUTES))) {
+        if(minutes > 0 && !excludes.contains(TimeType.MINUTES) && formats.containsKey(TimeType.MINUTES)) {
             stringBuilder.append(formats.get(TimeType.MINUTES).replace("{size}", Utils.numberFormat(minutes))).append(" ");
         }
 
-        if(seconds > 0 && (!excludes.contains(TimeType.SECONDS) && formats.containsKey(TimeType.SECONDS))) {
+        if(seconds > 0 && !excludes.contains(TimeType.SECONDS) && formats.containsKey(TimeType.SECONDS)) {
             stringBuilder.append(formats.get(TimeType.SECONDS).replace("{size}", Utils.numberFormat(seconds))).append(" ");
         }
 
@@ -44,8 +44,6 @@ public class TimeFormatter {
 
         if(format.isEmpty() && !excludes.contains(TimeType.NOW) && formats.containsKey(TimeType.NOW)) {
             format = formats.get(TimeType.NOW);
-        } else {
-            format = "";
         }
 
         return format;
