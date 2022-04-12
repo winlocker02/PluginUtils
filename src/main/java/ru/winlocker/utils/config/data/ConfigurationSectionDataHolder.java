@@ -59,7 +59,7 @@ public class ConfigurationSectionDataHolder implements DataHolder {
 	@Override
 	public DataHolder getList(String path) {
 		val list = section.getList(path);
-		return list != null ? new ListDataHolder(section.getList(path)) : null;
+		return list != null ? new ListDataHolder(list) : null;
 	}
 	
 	@Override
