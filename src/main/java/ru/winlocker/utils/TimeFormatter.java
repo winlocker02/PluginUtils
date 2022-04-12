@@ -40,7 +40,7 @@ public class TimeFormatter {
             stringBuilder.append(formats.get(TimeType.SECONDS).replace("{size}", Utils.numberFormat(seconds))).append(" ");
         }
 
-        String format = stringBuilder.toString();
+        String format = stringBuilder.toString().trim();
 
         if(format.isEmpty() && !excludes.contains(TimeType.NOW) && formats.containsKey(TimeType.NOW)) {
             format = formats.get(TimeType.NOW);
