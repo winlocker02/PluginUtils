@@ -27,7 +27,8 @@ public class TimeUtils {
         int seconds = timeToSeconds % 60;
 
         val stringBuilder = new StringBuilder();
-        val excludesList = Arrays.asList(excludes);
+
+        List<TimeType> excludesList = excludes != null ? Arrays.asList(excludes) : new ArrayList<>();
 
         if(days > 0 && (!excludesList.contains(TimeType.DAYS) && FORMATS.containsKey(TimeType.DAYS))) {
             stringBuilder.append(FORMATS.get(TimeType.DAYS).replace("{size}", Utils.numberFormat(days))).append(" ");
