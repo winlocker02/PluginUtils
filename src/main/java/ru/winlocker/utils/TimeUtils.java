@@ -5,20 +5,16 @@ import ru.winlocker.utils.config.annotations.*;
 
 import java.util.*;
 
+@Getter
+@ConfigMappable
 public class TimeUtils {
 
-    @ConfigName("times")
-    private static final Map<TimeType, String> FORMATS = new HashMap<>();
+    @ConfigName("time.formats")
+    private final Map<TimeType, String> formats = new HashMap<>();
+    @ConfigName("time.excludes")
+    private final List<TimeType> excludes = new ArrayList<>();
 
-    public static void addDefaultFormats() {
-        FORMATS.put(TimeType.DAYS, "&c{size} &fдн.");
-        FORMATS.put(TimeType.HOURS, "&c{size} &fчас.");
-        FORMATS.put(TimeType.MINUTES, "&c{size} &fмин.");
-        FORMATS.put(TimeType.SECONDS, "&c{size} &fсек.");
-        FORMATS.put(TimeType.NOW, "&cСейчас");
-    }
-
-    public static String format(@NonNull Number number, TimeType...excludes) {
+    public String format(@NonNull Number number) {
         int timeToSeconds = number.intValue();
 
         int days = timeToSeconds / 86400;
@@ -28,28 +24,26 @@ public class TimeUtils {
 
         val stringBuilder = new StringBuilder();
 
-        List<TimeType> excludesList = excludes != null ? Arrays.asList(excludes) : new ArrayList<>();
-
-        if(days > 0 && (!excludesList.contains(TimeType.DAYS) && FORMATS.containsKey(TimeType.DAYS))) {
-            stringBuilder.append(FORMATS.get(TimeType.DAYS).replace("{size}", Utils.numberFormat(days))).append(" ");
+        if(days > 0 && (!excludes.contains(TimeType.DAYS) && formats.containsKey(TimeType.DAYS))) {
+            stringBuilder.append(formats.get(TimeType.DAYS).replace("{size}", Utils.numberFormat(days))).append(" ");
         }
 
-        if(hours > 0 && (!excludesList.contains(TimeType.HOURS) && FORMATS.containsKey(TimeType.HOURS))) {
-            stringBuilder.append(FORMATS.get(TimeType.HOURS).replace("{size}", Utils.numberFormat(hours))).append(" ");
+        if(hours > 0 && (!excludes.contains(TimeType.HOURS) && formats.containsKey(TimeType.HOURS))) {
+            stringBuilder.append(formats.get(TimeType.HOURS).replace("{size}", Utils.numberFormat(hours))).append(" ");
         }
 
-        if(minutes > 0 && (!excludesList.contains(TimeType.MINUTES) && FORMATS.containsKey(TimeType.MINUTES))) {
-            stringBuilder.append(FORMATS.get(TimeType.MINUTES).replace("{size}", Utils.numberFormat(minutes))).append(" ");
+        if(minutes > 0 && (!excludes.contains(TimeType.MINUTES) && formats.containsKey(TimeType.MINUTES))) {
+            stringBuilder.append(formats.get(TimeType.MINUTES).replace("{size}", Utils.numberFormat(minutes))).append(" ");
         }
 
-        if(seconds > 0 && (!excludesList.contains(TimeType.SECONDS) && FORMATS.containsKey(TimeType.SECONDS))) {
-            stringBuilder.append(FORMATS.get(TimeType.SECONDS).replace("{size}", Utils.numberFormat(seconds))).append(" ");
+        if(seconds > 0 && (!excludes.contains(TimeType.SECONDS) && formats.containsKey(TimeType.SECONDS))) {
+            stringBuilder.append(formats.get(TimeType.SECONDS).replace("{size}", Utils.numberFormat(seconds))).append(" ");
         }
 
         String format = stringBuilder.toString();
 
-        if(format.isEmpty() && !excludesList.contains(TimeType.NOW) && FORMATS.containsKey(TimeType.NOW)) {
-            format = FORMATS.get(TimeType.NOW);
+        if(format.isEmpty() && !excludes.contains(TimeType.NOW) && formats.containsKey(TimeType.NOW)) {
+            format = formats.get(TimeType.NOW);
         } else {
             format = "";
         }
