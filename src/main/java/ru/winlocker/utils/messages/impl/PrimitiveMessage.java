@@ -27,12 +27,12 @@ public class PrimitiveMessage extends Message {
     }
 
     @Override
-    public void sendMessage(@NonNull CommandSender sender, @NonNull Function<String, String> apply) {
+    public void sendMessage(@NonNull CommandSender sender, @NonNull UnaryOperator<String> apply) {
         this.sendMessage(sender, true, apply);
     }
 
     @Override
-    public void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, Function<String, String> apply) {
+    public void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, UnaryOperator<String> apply) {
         val prefix = getMessages().getPrefix();
         val value = apply.apply(this.value);
 

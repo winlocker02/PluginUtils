@@ -10,7 +10,7 @@ public class TimeUtils {
     @ConfigName("times")
     private static final Map<TimeType, String> FORMATS = new HashMap<>();
 
-    static {
+    public static void addDefaultFormats() {
         FORMATS.put(TimeType.DAYS, "&c{size} &fдн.");
         FORMATS.put(TimeType.HOURS, "&c{size} &fчас.");
         FORMATS.put(TimeType.MINUTES, "&c{size} &fмин.");

@@ -13,6 +13,6 @@ public abstract class Message {
 
     public abstract void sendMessage(@NonNull CommandSender sender);
     public abstract void sendMessage(@NonNull CommandSender sender, boolean enablePrefix);
-    public abstract void sendMessage(@NonNull CommandSender sender, @NonNull Function<String, String> apply);
-    public abstract void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull Function<String, String> apply);
+    public abstract void sendMessage(@NonNull CommandSender sender, @NonNull UnaryOperator<String> apply);
+    public abstract void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull UnaryOperator<String> apply);
 }

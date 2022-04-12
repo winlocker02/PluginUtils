@@ -28,12 +28,12 @@ public class ListMessage extends Message {
     }
 
     @Override
-    public void sendMessage(@NonNull CommandSender sender, @NonNull Function<String, String> apply) {
+    public void sendMessage(@NonNull CommandSender sender, @NonNull UnaryOperator<String> apply) {
         this.sendMessage(sender, false, apply);
     }
 
     @Override
-    public void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull Function<String, String> apply) {
+    public void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull UnaryOperator<String> apply) {
         val prefix = getMessages().getPrefix();
 
         this.valueList.forEach(message -> {
