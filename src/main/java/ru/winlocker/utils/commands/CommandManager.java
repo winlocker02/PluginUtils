@@ -37,7 +37,15 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             val commands = getAllowedCommands(sender);
 
             if(!commands.isEmpty()) {
-                commands.forEach(entry -> Utils.sendMessage(sender, entry.getKey().description()));
+                commands.forEach(entry -> {
+                    val description = entry.getKey().description();
+
+                    if(messages.has(description)) {
+                        messages.get(description).sendMessage(sender);
+                    } else {
+                        Utils.sendMessage(sender, description);
+                    }
+                });
             } else {
                 messages.get("commands-empty").sendMessage(sender);
             }
@@ -62,7 +70,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                     try {
                         val commandSub = entry.getValue();
 
-                        if(commandSub.execute(messages, sender, argsList.toArray(new String[0]))) {
+                        if(!commandSub.execute(messages, sender, argsList.toArray(new String[0]))) {
                             val descriptionMessage = description.description();
 
                             if(messages.has(descriptionMessage)) {
