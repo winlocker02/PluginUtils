@@ -13,13 +13,30 @@ import java.util.*;
 public class Messages {
 
     public static Messages create(@NonNull ConfigurationSection configuration) {
+
         val messages = new Messages(configuration.getString("prefix"));
+        val messagesData = fromConfigurationToMap(messages, configuration);
+
+        val keyName = configuration.getName();
+
+        messagesData.forEach((name, message) -> {
+            if(!keyName.isEmpty()) {
+                name = name.replace(keyName + ".", "");
+            }
+            messages.messages.put(name, message);
+        });
+
+        return messages;
+    }
+
+    static Map<String, Message> fromConfigurationToMap(@NonNull Messages messages, @NonNull ConfigurationSection configuration) {
+        Map<String, Message> messagesMap = new HashMap<>();
 
         configuration.getKeys(false).forEach(key -> {
 
             if(configuration.isConfigurationSection(key)) {
-                val unite = create(configuration.getConfigurationSection(key));
-                messages.messages.putAll(unite.messages);
+                val newMessagesMap = fromConfigurationToMap(messages, configuration.getConfigurationSection(key));
+                messagesMap.putAll(newMessagesMap);
 
             } else {
                 Message message = null;
@@ -31,7 +48,7 @@ public class Messages {
                 }
 
                 if(message != null) {
-                    String keyMessage = configuration.getCurrentPath().replace(configuration.getName(), "");
+                    String keyMessage = configuration.getCurrentPath();
 
                     if(keyMessage.isEmpty()) {
                         keyMessage = key;
@@ -39,12 +56,12 @@ public class Messages {
                         keyMessage = keyMessage + "." + key;
                     }
 
-                    messages.messages.put(keyMessage, message);
+                    messagesMap.put(keyMessage, message);
                 }
             }
         });
 
-        return messages;
+        return messagesMap;
     }
 
     private @Setter String prefix;

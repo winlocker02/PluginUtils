@@ -127,6 +127,8 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     }
 
     private List<String> filter(List<String> list, String[] args) {
+        if(list == null) return null;
+
         String last = args[args.length - 1];
         List<String> result = new ArrayList<>();
 
