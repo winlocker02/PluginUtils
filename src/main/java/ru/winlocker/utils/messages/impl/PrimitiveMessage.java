@@ -42,4 +42,9 @@ public class PrimitiveMessage extends Message {
             Utils.sendMessage(sender, value);
         }
     }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }

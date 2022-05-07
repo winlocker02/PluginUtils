@@ -7,6 +7,7 @@ import ru.winlocker.utils.messages.*;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.*;
 
 public class ListMessage extends Message {
 
@@ -45,5 +46,10 @@ public class ListMessage extends Message {
                 Utils.sendMessage(sender, value);
             }
         });
+    }
+
+    @Override
+    public String toString() {
+        return String.join("\n", this.valueList);
     }
 }
