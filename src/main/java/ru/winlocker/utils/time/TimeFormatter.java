@@ -1,6 +1,7 @@
-package ru.winlocker.utils;
+package ru.winlocker.utils.time;
 
 import lombok.*;
+import ru.winlocker.utils.*;
 import ru.winlocker.utils.config.annotations.*;
 
 import java.util.*;
