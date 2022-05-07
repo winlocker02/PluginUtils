@@ -45,6 +45,6 @@ public class PrimitiveMessage extends Message {
 
     @Override
     public String toString() {
-        return this.value;
+        return Utils.color(this.value);
     }
 }

@@ -50,6 +50,6 @@ public class ListMessage extends Message {
 
     @Override
     public String toString() {
-        return String.join("\n", this.valueList);
+        return Utils.color(String.join("\n", this.valueList));
     }
 }
