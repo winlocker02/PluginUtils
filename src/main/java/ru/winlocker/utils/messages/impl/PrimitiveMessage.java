@@ -33,7 +33,7 @@ public class PrimitiveMessage extends Message {
 
     @Override
     public void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, UnaryOperator<String> apply) {
-        val prefix = getMessages().getPrefix();
+        val prefix = this.messages.getPrefix();
         val value = apply.apply(this.value);
 
         if(prefix != null) {

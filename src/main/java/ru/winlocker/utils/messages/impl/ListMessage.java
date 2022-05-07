@@ -7,7 +7,6 @@ import ru.winlocker.utils.messages.*;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.*;
 
 public class ListMessage extends Message {
 
@@ -35,7 +34,7 @@ public class ListMessage extends Message {
 
     @Override
     public void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull UnaryOperator<String> apply) {
-        val prefix = getMessages().getPrefix();
+        val prefix = this.messages.getPrefix();
 
         this.valueList.forEach(message -> {
             val value = apply.apply(message);
