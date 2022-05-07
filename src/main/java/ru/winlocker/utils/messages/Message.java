@@ -16,6 +16,5 @@ public abstract class Message {
     public abstract void sendMessage(@NonNull CommandSender sender, @NonNull UnaryOperator<String> apply);
     public abstract void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull UnaryOperator<String> apply);
 
-
     public abstract String toString();
 }
