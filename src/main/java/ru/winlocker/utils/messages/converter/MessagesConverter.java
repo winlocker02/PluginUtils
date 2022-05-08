@@ -5,10 +5,10 @@ import ru.winlocker.utils.config.conversion.*;
 import ru.winlocker.utils.config.data.*;
 import ru.winlocker.utils.messages.*;
 
-public class MessageConverter implements TypeConverter<Messages> {
+public class MessagesConverter implements TypeConverter<Messages> {
 
-    public static MessageConverter create() {
-        return new MessageConverter();
+    public static MessagesConverter create() {
+        return new MessagesConverter();
     }
 
     @Override

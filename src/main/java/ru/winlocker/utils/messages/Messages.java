@@ -12,56 +12,39 @@ import java.util.*;
 @AllArgsConstructor
 public class Messages {
 
-    public static Messages create(@NonNull ConfigurationSection configuration) {
+    public static Messages create(@NonNull ConfigurationSection section) {
+        val messages = new Messages(section.getString("prefix"));
+        val data = fromConfigurationToMap(messages, section);
 
-        val messages = new Messages(configuration.getString("prefix"));
-        val messagesData = fromConfigurationToMap(messages, configuration);
-
-        val keyName = configuration.getName();
-
-        messagesData.forEach((name, message) -> {
-            if(!keyName.isEmpty()) {
-                name = name.replace(keyName + ".", "");
-            }
-            messages.messages.put(name, message);
-        });
+        messages.messages.putAll(data);
 
         return messages;
     }
 
-    static Map<String, Message> fromConfigurationToMap(@NonNull Messages messages, @NonNull ConfigurationSection configuration) {
-        Map<String, Message> messagesMap = new HashMap<>();
+    static Map<String, Message> fromConfigurationToMap(@NonNull Messages messages, @NonNull ConfigurationSection section) {
+        Map<String, Message> data = new HashMap<>();
 
-        configuration.getKeys(false).forEach(key -> {
+        section.getKeys(false).forEach(key -> {
 
-            if(configuration.isConfigurationSection(key)) {
-                val newMessagesMap = fromConfigurationToMap(messages, configuration.getConfigurationSection(key));
-                messagesMap.putAll(newMessagesMap);
-
+            if(section.isConfigurationSection(key)) {
+                Map<String, Message> newMessages = fromConfigurationToMap(messages, section.getConfigurationSection(key));
+                newMessages.forEach((keyMessage, message) -> data.put(key + "." + keyMessage, message));
             } else {
                 Message message = null;
 
-                if(configuration.isList(key)) {
-                    message = new ListMessage(messages, configuration.getStringList(key));
-                } else if(configuration.isString(key)) {
-                    message = new PrimitiveMessage(messages, configuration.getString(key));
+                if(section.isString(key)) {
+                    message = new PrimitiveMessage(messages, section.getString(key));
+                } else if(section.isList(key)) {
+                    message = new ListMessage(messages, section.getStringList(key));
                 }
 
                 if(message != null) {
-                    String keyMessage = configuration.getCurrentPath();
-
-                    if(keyMessage.isEmpty()) {
-                        keyMessage = key;
-                    } else {
-                        keyMessage = keyMessage + "." + key;
-                    }
-
-                    messagesMap.put(keyMessage, message);
+                    data.put(key, message);
                 }
             }
         });
 
-        return messagesMap;
+        return data;
     }
 
     private @Setter String prefix;
