@@ -60,7 +60,7 @@ public class FieldSummary {
 			while (clazz != null && (staticContext || clazz.isAnnotationPresent(ConfigMappable.class) || Instantiator.isRecord(clazz))) {
 				for (Field field : clazz.getDeclaredFields()) {
 					int mod = field.getModifiers();
-					if (field.isAnnotationPresent(ConfigIgnore.class) || field.isSynthetic() || Modifier.isTransient(mod) || Modifier.isStatic(mod) != staticContext) {
+					if (!field.isAnnotationPresent(ConfigName.class) || field.isSynthetic() || Modifier.isTransient(mod) || Modifier.isStatic(mod) != staticContext) {
 						continue;
 					}
 					field.setAccessible(true);
