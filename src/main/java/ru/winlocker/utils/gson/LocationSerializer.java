@@ -48,7 +48,10 @@ public class LocationSerializer implements JsonSerializer<Location>, JsonDeseria
 
             val world = src.getWorld();
 
-            jsonObject.addProperty("world", world != null ? world.getName() : null);
+            if (world != null) {
+                jsonObject.addProperty("world", world.getName());
+            }
+
             jsonObject.addProperty("x", src.getX());
             jsonObject.addProperty("y", src.getY());
             jsonObject.addProperty("z", src.getZ());

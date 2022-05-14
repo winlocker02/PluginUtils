@@ -100,10 +100,15 @@ public class GuiContents {
 
     @SuppressWarnings("unchecked")
     public <V> V readObject(int index) {
-        if(index >= this.objects.length)
+
+        if(!isReadableObject(index))
             throw new ArrayIndexOutOfBoundsException("Value of index " + index + " not found");
 
         Object object = this.objects[index];
         return (V) object;
+    }
+
+    public boolean isReadableObject(int index) {
+        return !(index >= this.objects.length);
     }
 }

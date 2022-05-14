@@ -15,7 +15,7 @@ import java.util.stream.*;
 public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final @NonNull Messages messages;
-    private final Map<CommandDescription, CommandSub> commands = new HashMap<>();
+    private final Map<CommandDescription, CommandSub> commands = new LinkedHashMap<>();
 
     @SneakyThrows
     public void register(Class<? extends CommandSub> clazz) {
