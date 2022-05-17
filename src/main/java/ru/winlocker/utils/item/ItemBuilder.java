@@ -104,6 +104,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder removeEnchant(@NonNull Enchantment enchantment) {
+        this.itemStack.removeEnchantment(enchantment);
+        return this;
+    }
+
     public ItemBuilder clearEnchants() {
         this.itemStack.getEnchantments().keySet().forEach(this.itemStack::removeEnchantment);
         return this;
@@ -124,6 +129,15 @@ public class ItemBuilder {
         itemMeta.addItemFlags(ItemFlag.values());
 
         this.itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemBuilder removeFlags(@NonNull ItemFlag...flags) {
+        ItemMeta itemMeta = this.itemStack.getItemMeta();
+        itemMeta.removeItemFlags(flags);
+
+        this.itemStack.setItemMeta(itemMeta);
+
         return this;
     }
 
@@ -150,7 +164,7 @@ public class ItemBuilder {
 
         for (NBTListCompound compound : compoundList) {
             if(compound.hasKey("AttributeName")) {
-                String name = compound.getString("AttributeName").toLowerCase(Locale.ROOT);
+                String name = compound.getString("AttributeName");
 
                 if(name.equalsIgnoreCase(attributeName)) {
                     compound.setInteger("Amount", amount);
@@ -184,6 +198,29 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder removeAttribute(@NonNull ItemAttribute attribute) {
+        NBTItem nbtItem = new NBTItem(this.itemStack);
+        String attributeName = attribute.getMinecraftName();
+
+        if(nbtItem.hasKey("AttributeModifiers")) {
+            NBTCompoundList compoundList = nbtItem.getCompoundList("AttributeModifiers");
+
+            compoundList.forEach(compound -> {
+
+                if(compound.hasKey("AttributeName")) {
+                    String name = compound.getString("AttributeName");
+
+                    if(name.equalsIgnoreCase(attributeName)) {
+                        compoundList.remove(compound);
+                    }
+                }
+            });
+
+            this.itemStack = nbtItem.getItem();
+        }
+        return this;
+    }
+
     public ItemBuilder clearAttributes() {
         NBTItem nbtItem = new NBTItem(this.itemStack);
         nbtItem.getCompoundList("AttributeModifiers").clear();
@@ -197,6 +234,16 @@ public class ItemBuilder {
         if(this.itemStack.getItemMeta() instanceof PotionMeta) {
             PotionMeta potionMeta = (PotionMeta) this.itemStack.getItemMeta();
             effects.forEach(effect -> potionMeta.addCustomEffect(effect, true));
+
+            this.itemStack.setItemMeta(potionMeta);
+        }
+        return this;
+    }
+
+    public ItemBuilder potionEffect(@NonNull PotionEffect effect) {
+        if(this.itemStack.getItemMeta() instanceof PotionMeta) {
+            PotionMeta potionMeta = (PotionMeta) this.itemStack.getItemMeta();
+            potionMeta.addCustomEffect(effect, true);
 
             this.itemStack.setItemMeta(potionMeta);
         }
