@@ -12,6 +12,7 @@ import ru.winlocker.utils.item.attribute.*;
 
 import java.util.*;
 
+@AllArgsConstructor
 public class ItemBuilder {
 
     public static ItemBuilder builder(XMaterial xMaterial) {
@@ -32,13 +33,6 @@ public class ItemBuilder {
 
     public ItemBuilder(@NonNull Material material) {
         this(new ItemStack(material));
-    }
-
-    public ItemBuilder(@NonNull ItemStack itemStack) {
-        if(!itemStack.hasItemMeta())
-            throw new IllegalStateException("ItemStack " + itemStack.getType().name() + " does not have ItemMeta");
-
-        this.itemStack = itemStack;
     }
 
     public ItemBuilder durability(int durability) {
