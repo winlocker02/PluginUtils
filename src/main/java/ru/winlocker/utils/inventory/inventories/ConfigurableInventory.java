@@ -72,7 +72,7 @@ public abstract class ConfigurableInventory extends GuiInventory {
 
     @Override
     protected void init(@NonNull Player player, @NonNull GuiContents contents) {
-        contents.setTitle(() -> configuration.getString("title"));
+        contents.setTitle(configuration.getString("title"));
         contents.setRows(configuration.getInt("rows"));
 
         if(windowItem != null) {

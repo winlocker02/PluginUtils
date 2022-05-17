@@ -25,7 +25,7 @@ public class GuiHolder implements InventoryHolder {
         this.contents = contents;
         this.guiInventory = guiInventory;
 
-        String title = contents.getTitle().get();
+        String title = contents.getTitle();
 
         for (Map.Entry<String, Supplier<String>> entry : contents.getPlaceholders().entrySet()) {
             title = title.replace(entry.getKey(), entry.getValue().get());

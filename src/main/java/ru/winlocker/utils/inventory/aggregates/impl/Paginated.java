@@ -40,9 +40,7 @@ public class Paginated implements Aggregate {
             this.page = 0;
         }
 
-        String title = contents.getTitle().get();
-
-        contents.setTitle(() -> title.replace("{page}", Utils.numberFormat(this.page + 1))
+        contents.setTitle(contents.getTitle().replace("{page}", Utils.numberFormat(this.page + 1))
                 .replace("{max-page}", Utils.numberFormat(this.getPages() + 1)));
 
         PageIterator iterator = new PageIterator(contents, this.fromX, this.fromY, this.toX, this.toY);
