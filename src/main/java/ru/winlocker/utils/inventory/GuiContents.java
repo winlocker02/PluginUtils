@@ -18,7 +18,7 @@ public class GuiContents {
     private final @NonNull GuiInventory inventory;
     private final Object[] objects;
 
-    private @Setter Supplier<String> title;
+    private @Setter String title;
     private @Setter int rows;
 
     private final Map<Integer, GuiItem> items = new HashMap<>();
