@@ -97,7 +97,7 @@ inventory:
               material: APPLE
               name: '&aTest'
           slot: 1, 1
-           type: TEST
+          type: TEST
 
 ```
 
