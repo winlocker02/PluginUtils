@@ -1,4 +1,4 @@
-package ru.winlocker.utils.inventory.inventories;
+package ru.winlocker.utils.inventory.inventories.configurable;
 
 import lombok.*;
 import org.bukkit.configuration.*;

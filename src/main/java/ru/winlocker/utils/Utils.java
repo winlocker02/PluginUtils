@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.messages.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+import ru.winlocker.utils.inventory.item.*;
 
 import java.text.*;
 import java.util.*;
@@ -35,6 +36,16 @@ public class Utils {
             line = line.trim();
 
             if(line.startsWith("title:")) {
+
+                Player player = null;
+                GuiItem item = null;
+                item.setAction(e -> {
+                    if(player.getGameMode() != GameMode.CREATIVE) {
+                        player.setGameMode(GameMode.CREATIVE);
+                    } else {
+                        player.setGameMode(GameMode.SURVIVAL);
+                    }
+                });
 
                 if (sender instanceof Player) {
                     String[] args = line.split("title:")[1].split("%nl%");

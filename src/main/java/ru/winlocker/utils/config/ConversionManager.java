@@ -1,9 +1,13 @@
 package ru.winlocker.utils.config;
 
+import org.bukkit.inventory.*;
 import org.bukkit.plugin.*;
 import ru.winlocker.utils.config.annotations.*;
 import ru.winlocker.utils.config.conversion.*;
+import ru.winlocker.utils.config.conversion.bukkit.*;
+import ru.winlocker.utils.config.conversion.messages.*;
 import ru.winlocker.utils.config.instantiation.*;
+import ru.winlocker.utils.messages.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -110,6 +114,12 @@ public class ConversionManager {
 	}
 	
 	private TypeConverter<?> createConverter(ConfigType<?> type) {
+		if(Messages.class.isAssignableFrom(type.getType())) {
+			return MessagesConverter.create();
+		}
+		if(ItemStack.class.isAssignableFrom(type.getType())) {
+			return ItemStackConverter.create();
+		}
 		if (Enum.class.isAssignableFrom(type.getType())) {
 			return EnumConverter.create(type.getType());
 		}
@@ -129,5 +139,4 @@ public class ConversionManager {
 		}
 		return NativeConverter.create();
 	}
-	
 }

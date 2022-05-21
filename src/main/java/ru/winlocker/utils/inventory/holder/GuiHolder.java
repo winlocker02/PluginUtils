@@ -13,15 +13,12 @@ import java.util.function.*;
 @Getter
 public class GuiHolder implements InventoryHolder {
 
-    private final @NonNull Player viewer;
-
     private final @NonNull GuiContents contents;
     private final @NonNull GuiInventory guiInventory;
 
     private final Inventory inventory;
 
-    public GuiHolder(@NonNull Player viewer, @NonNull GuiContents contents, @NonNull GuiInventory guiInventory) {
-        this.viewer = viewer;
+    public GuiHolder(@NonNull GuiContents contents, @NonNull GuiInventory guiInventory) {
         this.contents = contents;
         this.guiInventory = guiInventory;
 
@@ -34,7 +31,6 @@ public class GuiHolder implements InventoryHolder {
         title = Utils.color(title);
 
         this.inventory = Bukkit.createInventory(this, contents.getRows() * 9, title);
-        this.updateItems();
     }
 
     public void updateItems() {
@@ -42,18 +38,20 @@ public class GuiHolder implements InventoryHolder {
     }
 
     public void updateInventory() {
-        GuiContents contents = new GuiContents(this.guiInventory, this.contents.getObjects());
-        contents.setAggregates(this.contents.getAggregates());
+        this.inventory.getViewers().forEach(viewer -> {
+            GuiContents contents = new GuiContents(this.guiInventory, this.contents.getObjects());
+            contents.setAggregates(this.contents.getAggregates());
 
-        ItemStack cursor = viewer.getItemOnCursor();
-        viewer.setItemOnCursor(new ItemStack(Material.AIR));
+            ItemStack cursor = viewer.getItemOnCursor();
+            viewer.setItemOnCursor(new ItemStack(Material.AIR));
 
-        this.guiInventory.showInventory(viewer, contents);
+            this.guiInventory.showInventory((Player) viewer, contents);
 
-        viewer.setItemOnCursor(cursor);
+            viewer.setItemOnCursor(cursor);
+        });
     }
 
     public void closeInventory() {
-        this.viewer.closeInventory();
+        this.inventory.getViewers().forEach(HumanEntity::closeInventory);
     }
 }

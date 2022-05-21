@@ -73,34 +73,32 @@ public class GuiContents {
         }
     }
 
-    public Set<Aggregate> getAggregates() {
-        return new HashSet<>(this.aggregates);
-    }
-
     public boolean addAggregate(@NonNull Aggregate aggregate) {
         return this.aggregates.add(aggregate);
     }
 
-    public <V extends Aggregate> V getAggregate(Class<V> clazz) {
-        return getOrAddAggregate(clazz, null);
+    @SuppressWarnings("unchecked")
+    public <V extends Aggregate> V getAggregate(@NonNull Class<V> clazz) {
+        return (V) this.aggregates.stream()
+                .filter(aggregate -> aggregate.getClass().isAssignableFrom(clazz))
+                .findFirst()
+                .orElse(null);
     }
 
     @SuppressWarnings("unchecked")
-    public <V extends Aggregate> V getOrAddAggregate(Class<V> clazz, V def) {
+    public <V extends Aggregate> V getOrAddAggregate(@NonNull V value) {
         return (V) this.getAggregates().stream()
-                .filter(aggregate -> clazz.isAssignableFrom(aggregate.getClass()))
+                .filter(aggregate -> aggregate.getClass().isAssignableFrom(value.getClass()))
                 .findFirst()
                 .orElseGet(() -> {
-                    if(def != null) {
-                        this.aggregates.add(def);
-                    }
-                    return def;
+                    this.aggregates.add(value);
+
+                    return value;
                 });
     }
 
     @SuppressWarnings("unchecked")
     public <V> V readObject(int index) {
-
         if(!isReadableObject(index))
             throw new ArrayIndexOutOfBoundsException("Value of index " + index + " not found");
 

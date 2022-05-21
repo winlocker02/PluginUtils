@@ -84,11 +84,13 @@ public class FieldSummary {
 							continue;
 						}
 						fields.get(pos).setComments(getComments(param));
-						ConfigName name = param.getAnnotation(ConfigName.class);
-						if (name == null) {
+						ConfigName configName = param.getAnnotation(ConfigName.class);
+
+						if (configName == null) {
 							continue;
 						}
-						fields.get(pos).setName(name.value());
+
+						fields.get(pos).setName(configName.value());
 						pos++;
 					}
 				}

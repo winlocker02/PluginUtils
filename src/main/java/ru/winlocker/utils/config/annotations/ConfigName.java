@@ -11,6 +11,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface ConfigName {
 	
-	String value();
-	
+	String value() default "";
 }

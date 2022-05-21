@@ -92,12 +92,18 @@ inventory:
             damage: 15
             name: ' '
     items:
-        item1:
+        gamemode_creative:
             item:
-                material: APPLE
-                name: '&aTest'
-            slot: 1, 1
-            type: TEST
+                material: FEATHER
+                name: '&6Enable/disable creative mode'
+            slot: 3, 2
+            type: GAME_MODE
+        fly_mode:
+            item:
+                material: FEATHER
+                name: '&aEnable/disable fly mode'
+            slot: 2, 2
+            type: FLY
 
 ```
 
@@ -106,12 +112,45 @@ inventory:
         ConfigurableInventory inventory = new ConfigurableInventory(configuration.getConfigurationSection("inventory")) {
             @Override
             protected boolean initItem(@NonNull Player player, @NonNull GuiContents contents, @NonNull ConfigurableItem configurableItem, @NonNull GuiItem item) {
-                // On initialize item from inventory
+                // Initialize item from configuration
+                
+                switch(configurableItem.getName()) {
+                    case "GAME_MODE" :
+                        
+                        if(!player.hasPermission("example.gamemode")) 
+                            return false; // If returned false, the item will not be placed in the inventory
+                        
+                        item.setAction(e -> {
+                            if(player.getGameMode() != GameMode.CREATIVE) {
+                                player.setGameMode(GameMode.CREATIVE);
+                                player.sendMessage(ChatColor.GREEN + "Creative mode is enabled");
+                            } else {
+                                player.setGameMode(GameMode.SURVIVAL);
+                                player.sendMessage(ChatColor.RED + "Creative mode is disabled");
+                            }
+                        });
+                        
+                        break;
+                    case "FLY" :
 
-                if ("TEST".equals(configurableItem.getName())) {
-                    item.setAction(e -> player.sendMessage("test"));
+                        if(!player.hasPermission("example.fly"))
+                            return false; // If returned false, the item will not be placed in the inventory
+                        
+                        item.setAction(e -> {
+                            
+                            if(player.getAllowFlight()) {
+                                player.setAllowFlight(false);
+                                player.setFlying(false);
+                                player.sendMessage(ChatColor.RED + "Fly mode is disabled");
+                            } else {
+                                player.setAllowFlight(true);
+                                player.sendMessage(ChatColor.RED + "Fly mode is disabled");
+                            }                  
+                        });
+                        
+                        break;
                 }
-
+                
                 return true;
             }
         };

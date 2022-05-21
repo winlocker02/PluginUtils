@@ -1,4 +1,4 @@
-package ru.winlocker.utils.converters;
+package ru.winlocker.utils.config.conversion.bukkit;
 
 import com.cryptomorin.xseries.*;
 import org.bukkit.inventory.*;

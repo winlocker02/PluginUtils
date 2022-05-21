@@ -1,4 +1,4 @@
-package ru.winlocker.utils.inventory.inventories;
+package ru.winlocker.utils.inventory.inventories.configurable;
 
 import lombok.*;
 import org.bukkit.configuration.*;
@@ -15,7 +15,6 @@ public abstract class ConfigurablePaginatedInventory extends ConfigurableInvento
 
     @Override
     protected void init(@NonNull Player player, @NonNull GuiContents contents) {
-        Paginated paginated = null;
 
         if(this.configuration.isConfigurationSection("paginated")) {
             val section = this.configuration.getConfigurationSection("paginated");
@@ -23,7 +22,7 @@ public abstract class ConfigurablePaginatedInventory extends ConfigurableInvento
             GuiSlot slot = GuiUtil.parseSlot(section.getString("slot"));
             GuiSlot toSlot = GuiUtil.parseSlot(section.getString("to-slot"));
 
-            paginated = contents.getOrAddAggregate(Paginated.class, Paginated.ofPaginated(slot.getX(), slot.getY(), toSlot.getX(), toSlot.getY()));
+            Paginated paginated = contents.getOrAddAggregate(Paginated.ofPage(slot.getX(), slot.getY(), toSlot.getX(), toSlot.getY()));
             initPaginated(player, contents, paginated);
         }
 

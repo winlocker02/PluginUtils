@@ -1,4 +1,4 @@
-package ru.winlocker.utils.inventory.inventories;
+package ru.winlocker.utils.inventory.inventories.configurable;
 
 import com.cryptomorin.xseries.*;
 import lombok.*;

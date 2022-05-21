@@ -1,6 +1,5 @@
 package ru.winlocker.utils.inventory;
 
-import com.cryptomorin.xseries.*;
 import com.google.common.collect.*;
 import lombok.*;
 import org.bukkit.*;
@@ -27,18 +26,16 @@ public abstract class GuiInventory {
     public void showInventory(@NonNull Player player, @NonNull GuiContents contents) {
         init(player, contents);
 
-        contents.getAggregates().forEach(aggregate -> aggregate.init(player, contents, this));
+        GuiHolder holder = new GuiHolder(contents, this);
+        contents.getAggregates().forEach(aggregate -> aggregate.init(player, contents, this, holder));
 
-        GuiHolder holder = new GuiHolder(player, contents, this);
+        holder.updateItems();
+
         player.openInventory(holder.getInventory());
     }
 
     public void updateInventory() {
         this.viewers.values().forEach(GuiHolder::updateInventory);
-    }
-
-    public GuiHolder getHolder(@NonNull Player player) {
-        return this.viewers.get(player);
     }
 
     protected abstract void init(@NonNull Player player, @NonNull GuiContents contents);

@@ -7,6 +7,7 @@ import org.bukkit.inventory.*;
 import ru.winlocker.utils.*;
 import ru.winlocker.utils.inventory.*;
 import ru.winlocker.utils.inventory.aggregates.*;
+import ru.winlocker.utils.inventory.holder.*;
 import ru.winlocker.utils.inventory.item.*;
 
 import java.util.*;
@@ -14,7 +15,7 @@ import java.util.*;
 @Getter
 public class Paginated implements Aggregate {
 
-    public static Paginated ofPaginated(int fromX, int fromY, int toX, int toY) {
+    public static Paginated ofPage(int fromX, int fromY, int toX, int toY) {
         return new Paginated(fromX, fromY, toX, toY);
     }
 
@@ -34,7 +35,7 @@ public class Paginated implements Aggregate {
     }
 
     @Override
-    public void init(@NonNull Player player, @NonNull GuiContents contents, @NonNull GuiInventory inventory) {
+    public void init(@NonNull Player player, @NonNull GuiContents contents, @NonNull GuiInventory inventory, @NonNull GuiHolder holder) {
 
         if(this.page < 0 || this.page > getPages()) {
             this.page = 0;
@@ -68,7 +69,7 @@ public class Paginated implements Aggregate {
                             player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
                         }
 
-                        inventory.getHolder(player).updateInventory();
+                        holder.updateInventory();
                     } else {
                         if(item.getSoundCompleted() != null) {
                             player.playSound(player.getLocation(), item.getSoundCompleted(), 1f, 1f);
@@ -88,7 +89,7 @@ public class Paginated implements Aggregate {
                             player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
                         }
 
-                        inventory.getHolder(player).updateInventory();
+                        holder.updateInventory();
                     } else {
                         if(item.getSoundCompleted() != null) {
                             player.playSound(player.getLocation(), item.getSoundCompleted(), 1f, 1f);
@@ -119,7 +120,6 @@ public class Paginated implements Aggregate {
             throw new IllegalArgumentException("page number cannot be higher than the maximum number of pages");
         this.page = page;
     }
-
 
     @Getter
     public static class PageIterator {

@@ -1,4 +1,4 @@
-package ru.winlocker.utils.messages.converter;
+package ru.winlocker.utils.config.conversion.messages;
 
 import lombok.*;
 import ru.winlocker.utils.config.conversion.*;

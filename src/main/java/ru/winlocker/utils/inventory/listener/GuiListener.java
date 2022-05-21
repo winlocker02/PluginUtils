@@ -64,7 +64,7 @@ public class GuiListener implements Listener {
             if(!e.isCancelled()) {
                 GuiInventory inventory = holder.getContents().getInventory();
 
-                inventory.getViewers().put(holder.getViewer(), holder);
+                inventory.getViewers().put((Player) e.getPlayer(), holder);
                 this.viewers.add(holder.getContents().getInventory());
             }
         }
@@ -84,7 +84,7 @@ public class GuiListener implements Listener {
 
             GuiInventory inventory = holder.getContents().getInventory();
 
-            inventory.getViewers().remove(holder.getViewer());
+            inventory.getViewers().remove((Player) e.getPlayer());
 
             if(inventory.getViewers().isEmpty()) {
                 this.viewers.remove(inventory);

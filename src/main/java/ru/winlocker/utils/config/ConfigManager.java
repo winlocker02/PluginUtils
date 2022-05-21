@@ -1,5 +1,6 @@
 package ru.winlocker.utils.config;
 
+import com.cryptomorin.xseries.*;
 import org.bukkit.configuration.*;
 import org.bukkit.configuration.file.*;
 import org.bukkit.plugin.*;
