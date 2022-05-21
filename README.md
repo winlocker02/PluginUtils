@@ -115,7 +115,7 @@ inventory:
                 // Initialize item from configuration
                 
                 switch(configurableItem.getName()) {
-                    case "GAME_MODE" :
+                    case "GAME_MODE" : // The name of the item is taken from the configuration
                         
                         if(!player.hasPermission("example.gamemode")) 
                             return false; // If returned false, the item will not be placed in the inventory
