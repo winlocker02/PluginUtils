@@ -91,13 +91,13 @@ inventory:
             material: BLACK_STAINED_GLASS_PANE
             damage: 15
             name: ' '
-  items:
-      item1:
-          item:
-              material: APPLE
-              name: '&aTest'
-          slot: 1, 1
-          type: TEST
+    items:
+        item1:
+            item:
+                material: APPLE
+                name: '&aTest'
+            slot: 1, 1
+            type: TEST
 
 ```
 
