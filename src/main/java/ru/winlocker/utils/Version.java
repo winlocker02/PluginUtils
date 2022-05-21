@@ -14,7 +14,6 @@ public class Version {
         Matcher matcher = Pattern.compile("MC: \\d\\.(\\d+)").matcher(version);
 
         if (matcher.find()) VERSION = Integer.parseInt(matcher.group(1));
-        XMaterial.FEATHER
         else throw new IllegalArgumentException("Failed to parse server version from: " + version);
     }
 
