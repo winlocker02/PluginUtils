@@ -37,8 +37,8 @@ public class PrimitiveMessage extends Message {
         val prefix = this.messages.getPrefix();
         val value = apply.apply(this.value);
 
-        if(prefix != null) {
-            Utils.sendMessage(sender, prefix + value);
+        if(prefix != null && enablePrefix) {
+            Utils.sendMessage(sender, prefix, value);
         } else {
             Utils.sendMessage(sender, value);
         }

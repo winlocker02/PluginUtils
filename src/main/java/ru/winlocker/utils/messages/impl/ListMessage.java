@@ -40,7 +40,7 @@ public class ListMessage extends Message {
             val value = apply.apply(message);
 
             if(prefix != null && enablePrefix) {
-                Utils.sendMessage(sender, prefix + value);
+                Utils.sendMessage(sender, prefix, value);
             } else {
                 Utils.sendMessage(sender, value);
             }

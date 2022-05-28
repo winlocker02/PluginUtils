@@ -1,6 +1,9 @@
 package ru.winlocker.utils.sql;
 
-public interface ResponseHandler <V, T extends Throwable> {
+import java.sql.*;
 
-    void handle(V value) throws T;
+@FunctionalInterface
+public interface ResponseHandler <V, R> {
+
+    R handleResponse(V value) throws SQLException;
 }

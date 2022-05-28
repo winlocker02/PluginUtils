@@ -4,7 +4,6 @@ import com.cryptomorin.xseries.messages.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
-import ru.winlocker.utils.inventory.item.*;
 
 import java.text.*;
 import java.util.*;
@@ -32,8 +31,14 @@ public class Utils {
     }
 
     public static void sendMessage(CommandSender sender, String text) {
+        sendMessage(sender, null, text);
+    }
+
+    public static void sendMessage(CommandSender sender, String prefix, String text) {
         for (String line : text.split(";")) {
             line = line.trim();
+
+            if(line.isEmpty()) continue;
 
             if(line.startsWith("title:")) {
                 if (sender instanceof Player) {
@@ -53,7 +58,7 @@ public class Utils {
                     ActionBar.sendActionBar((Player) sender, color(line.split("actionbar:")[1]));
                 }
             } else {
-                sender.sendMessage(color(line));
+                sender.sendMessage(color(prefix + line));
             }
         }
     }

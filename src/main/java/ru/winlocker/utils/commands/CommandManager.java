@@ -6,7 +6,7 @@ import org.bukkit.entity.*;
 import ru.winlocker.utils.*;
 import ru.winlocker.utils.messages.*;
 
-import java.lang.reflect.Constructor;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -17,16 +17,28 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     private final @NonNull Messages messages;
     private final Map<CommandDescription, CommandSub> commands = new LinkedHashMap<>();
 
-    @SneakyThrows
-    public void register(Class<? extends CommandSub> clazz) {
-        if(!clazz.isAnnotationPresent(CommandDescription.class)) {
-            throw new IllegalArgumentException("Command class " + clazz.getName() + " is not annotated @CommandDescription");
-        }
-        Constructor<? extends CommandSub> constructor = clazz.getDeclaredConstructor();
+    public void register(@NonNull CommandSub command) {
+        Class<? extends  CommandSub> clazz = command.getClass();
 
-        CommandSub command = constructor.newInstance();
+        if(!clazz.isAnnotationPresent(CommandDescription.class))
+            throw new IllegalArgumentException("Command class " + clazz.getName() + " is not annotated @CommandDescription");
+
+        CommandDescription description = clazz.getAnnotation(CommandDescription.class);
+        this.commands.put(description, command);
+    }
+
+    @SneakyThrows
+    @Deprecated
+    public void register(Class<? extends CommandSub> clazz) {
+        if(!clazz.isAnnotationPresent(CommandDescription.class))
+            throw new IllegalArgumentException("Command class " + clazz.getName() + " is not annotated @CommandDescription");
+
         CommandDescription description = clazz.getAnnotation(CommandDescription.class);
 
+        Constructor<? extends CommandSub> constructor = clazz.getDeclaredConstructor();
+        constructor.setAccessible(true);
+
+        CommandSub command = constructor.newInstance();
         this.commands.put(description, command);
     }
 
@@ -37,6 +49,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             val commands = getAllowedCommands(sender);
 
             if(!commands.isEmpty()) {
+
                 commands.forEach(entry -> {
                     val description = entry.getKey().description();
 
