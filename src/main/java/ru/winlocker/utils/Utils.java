@@ -58,7 +58,7 @@ public class Utils {
                     ActionBar.sendActionBar((Player) sender, color(line.split("actionbar:")[1]));
                 }
             } else {
-                sender.sendMessage(color(prefix + line));
+                sender.sendMessage(color((prefix != null ? prefix : "") + line));
             }
         }
     }
