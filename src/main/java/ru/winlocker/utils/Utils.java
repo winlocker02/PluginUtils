@@ -38,8 +38,6 @@ public class Utils {
         for (String line : text.split(";")) {
             line = line.trim();
 
-            if(line.isEmpty()) continue;
-
             if(line.startsWith("title:")) {
                 if (sender instanceof Player) {
                     String[] args = line.split("title:")[1].split("%nl%");
