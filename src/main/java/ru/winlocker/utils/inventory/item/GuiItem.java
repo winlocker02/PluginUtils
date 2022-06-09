@@ -21,6 +21,8 @@ public class GuiItem {
     private @Setter Consumer<InventoryClickEvent> action;
     private @Setter Sound sound;
 
+    private @Setter boolean closeable;
+
     public GuiItem(ItemStack itemStack) {
         this(itemStack, null);
     }

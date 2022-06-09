@@ -40,7 +40,7 @@ public abstract class ConfigurableInventory extends GuiInventory {
                 sound = XSound.matchXSound(section.getString("sound")).map(XSound::parseSound).orElse(null);
             }
 
-            windowItem = new ConfigurableItem(itemStack, null, null, Arrays.asList(slot, toSlot), sound);
+            windowItem = new ConfigurableItem(itemStack, null, null, null, sound, false);
         }
 
         if (configuration.isConfigurationSection("items")) {
@@ -66,7 +66,9 @@ public abstract class ConfigurableInventory extends GuiInventory {
                     slots.add(GuiUtil.parseSlot(section.getString("slot")).getSlot());
                 }
 
-                this.items.add(new ConfigurableItem(itemStack, name, null, slots, sound));
+                boolean closeable = section.getBoolean("closeable");
+
+                this.items.add(new ConfigurableItem(itemStack, name, null, slots, sound, closeable));
             });
         }
     }
@@ -85,7 +87,9 @@ public abstract class ConfigurableInventory extends GuiInventory {
 
         this.items.forEach(configurableItem -> {
             GuiItem item = new GuiItem(configurableItem.getItemStack(), configurableItem.getAction());
+
             item.setSound(configurableItem.getSound());
+            item.setCloseable(configurableItem.isCloseable());
 
             if(initItem(player, contents, configurableItem, item)) {
                 configurableItem.getSlots().forEach(slot -> contents.setItem(slot, item));
@@ -103,6 +107,7 @@ public abstract class ConfigurableInventory extends GuiInventory {
         private Consumer<InventoryClickEvent> action;
         private List<Integer> slots;
         private Sound sound;
+        private boolean closeable;
 
         public String getName() {
             return name != null ? name : "";

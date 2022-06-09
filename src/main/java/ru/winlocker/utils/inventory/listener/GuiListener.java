@@ -35,14 +35,18 @@ public class GuiListener implements Listener {
                     player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
                 }
 
-                if(item.getAction() != null) {
-                    try {
-                        item.getAction().accept(e);
-                    } catch (Exception ex) {
-                        player.closeInventory();
-                        player.sendMessage(ChatColor.RED + "Произошла ошибка, обратитесь к администратору.");
+                if(item.isCloseable()) {
+                    player.closeInventory();
+                } else {
+                    if(item.getAction() != null) {
+                        try {
+                            item.getAction().accept(e);
+                        } catch (Exception ex) {
+                            player.closeInventory();
+                            player.sendMessage(ChatColor.RED + "Произошла ошибка, обратитесь к администратору.");
 
-                        ex.printStackTrace();
+                            ex.printStackTrace();
+                        }
                     }
                 }
             }
