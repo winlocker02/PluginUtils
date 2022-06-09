@@ -38,7 +38,7 @@ public class GuiHolder implements InventoryHolder {
     }
 
     public void updateInventory() {
-        this.inventory.getViewers().forEach(viewer -> {
+        new ArrayList<>(this.inventory.getViewers()).forEach(viewer -> {
             GuiContents contents = new GuiContents(this.guiInventory, this.contents.getObjects());
             contents.setAggregates(this.contents.getAggregates());
 
