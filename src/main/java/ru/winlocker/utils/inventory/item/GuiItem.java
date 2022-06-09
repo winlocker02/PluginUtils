@@ -16,7 +16,7 @@ public class GuiItem {
 
     private final UUID uniqueId = UUID.randomUUID();
 
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
 
     private @Setter Consumer<InventoryClickEvent> action;
     private @Setter Sound sound;
@@ -25,13 +25,14 @@ public class GuiItem {
         this(itemStack, null);
     }
 
-    public GuiItem(ItemStack itemStack, Consumer<InventoryClickEvent> action) {
-        if(itemStack != null && itemStack.getType() != Material.AIR) {
-
+    public GuiItem(@NonNull ItemStack itemStack, Consumer<InventoryClickEvent> action) {
+        if(itemStack.getType() != Material.AIR) {
             NBTItem nbtItem = new NBTItem(itemStack);
             nbtItem.setString("inventory-item", uniqueId.toString());
 
             this.itemStack = nbtItem.getItem();
+        } else {
+            this.itemStack = itemStack;
         }
         this.action = action;
     }

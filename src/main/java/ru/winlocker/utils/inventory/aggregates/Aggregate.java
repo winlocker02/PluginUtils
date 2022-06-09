@@ -7,5 +7,5 @@ import ru.winlocker.utils.inventory.holder.*;
 
 public interface Aggregate {
 
-    void init(@NonNull Player player, @NonNull GuiContents contents, @NonNull GuiInventory inventory, @NonNull GuiHolder holder);
+    void init(@NonNull Player player, @NonNull GuiContents contents, @NonNull GuiInventory inventory);
 }

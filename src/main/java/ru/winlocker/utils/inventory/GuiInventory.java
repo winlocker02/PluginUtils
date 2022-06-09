@@ -26,10 +26,14 @@ public abstract class GuiInventory {
     public void showInventory(@NonNull Player player, @NonNull GuiContents contents) {
         init(player, contents);
 
-        GuiHolder holder = new GuiHolder(contents, this);
-        contents.getAggregates().forEach(aggregate -> aggregate.init(player, contents, this, holder));
+        contents.getAggregates().forEach(aggregate -> aggregate.init(player, contents, this));
 
+        GuiHolder holder = new GuiHolder(contents, this);
         holder.updateItems();
+
+        if(contents.getActionHolder() != null) {
+            contents.getActionHolder().accept(holder);
+        }
 
         player.openInventory(holder.getInventory());
     }

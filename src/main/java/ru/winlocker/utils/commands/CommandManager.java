@@ -11,11 +11,16 @@ import java.util.*;
 import java.util.stream.*;
 
 @Getter
-@RequiredArgsConstructor
 public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final @NonNull Messages messages;
     private final Map<CommandDescription, CommandSub> commands = new LinkedHashMap<>();
+
+    private @Setter CommandExecutor noArgsExecutor;
+
+    public CommandManager(@NonNull Messages messages) {
+        this.messages = messages;
+    }
 
     public void register(@NonNull CommandSub command) {
         Class<? extends  CommandSub> clazz = command.getClass();
@@ -46,9 +51,16 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if(args.length == 0) {
+
+            if(noArgsExecutor != null) {
+                return noArgsExecutor.onCommand(sender, command, label, args);
+            }
+
             val commands = getAllowedCommands(sender);
 
-            if(!commands.isEmpty()) {
+            if(commands.isEmpty()) {
+                messages.get("commands-empty").sendMessage(sender);
+            } else {
 
                 commands.forEach(entry -> {
                     val description = entry.getKey().description();
@@ -59,8 +71,6 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                         Utils.sendMessage(sender, description);
                     }
                 });
-            } else {
-                messages.get("commands-empty").sendMessage(sender);
             }
 
             return true;
@@ -77,6 +87,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                     messages.get("only-players").sendMessage(sender);
 
                 } else {
+
                     val argsList = new ArrayList<>(Arrays.asList(args));
                     argsList.remove(0);
 

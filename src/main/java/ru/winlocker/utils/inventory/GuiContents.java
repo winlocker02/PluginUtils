@@ -6,6 +6,7 @@ import org.bukkit.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.*;
 import ru.winlocker.utils.inventory.aggregates.*;
+import ru.winlocker.utils.inventory.holder.*;
 import ru.winlocker.utils.inventory.item.*;
 
 import java.util.*;
@@ -27,6 +28,8 @@ public class GuiContents {
     private @Setter Consumer<InventoryClickEvent> actionClick;
     private @Setter Consumer<InventoryOpenEvent> actionOpen;
     private @Setter Consumer<InventoryCloseEvent> actionClose;
+
+    private @Setter Consumer<GuiHolder> actionHolder;
 
     private @Setter @NonNull Set<Aggregate> aggregates = new HashSet<>();
 

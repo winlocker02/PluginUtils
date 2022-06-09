@@ -35,13 +35,14 @@ public class Paginated implements Aggregate {
     }
 
     @Override
-    public void init(@NonNull Player player, @NonNull GuiContents contents, @NonNull GuiInventory inventory, @NonNull GuiHolder holder) {
+    public void init(@NonNull Player player, @NonNull GuiContents contents, @NonNull GuiInventory inventory) {
 
         if(this.page < 0 || this.page > getPages()) {
             this.page = 0;
         }
 
-        contents.setTitle(contents.getTitle().replace("{page}", Utils.numberFormat(this.page + 1))
+        contents.setTitle(contents.getTitle()
+                .replace("{page}", Utils.numberFormat(this.page + 1))
                 .replace("{max-page}", Utils.numberFormat(this.getPages() + 1)));
 
         PageIterator iterator = new PageIterator(contents, this.fromX, this.fromY, this.toX, this.toY);
@@ -53,52 +54,55 @@ public class Paginated implements Aggregate {
                 break;
         }
 
-        render.getItems().forEach((slot, item) -> {
-            GuiItem guiItem = new GuiItem(item.getItemStack());
+        contents.setActionHolder(holder -> {
 
-            if(item.getType() == PaginatedItemType.NEXT) {
+            render.getItems().forEach((slot, item) -> {
+                GuiItem guiItem = new GuiItem(item.getItemStack());
 
-                if(item.isRemoveIfCompleted() && (this.getPages() <= this.page))
-                    return;
+                if(item.getType() == PaginatedItemType.NEXT) {
 
-                guiItem.setAction(e -> {
-                    if(this.getPages() > this.page) {
-                        this.page++;
+                    if(item.isRemoveIfCompleted() && (this.getPages() <= this.page))
+                        return;
 
-                        if(item.getSound() != null) {
-                            player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
+                    guiItem.setAction(e -> {
+                        if(this.getPages() > this.page) {
+                            this.page++;
+
+                            if(item.getSound() != null) {
+                                player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
+                            }
+
+                            holder.updateInventory();
+                        } else {
+                            if(item.getSoundCompleted() != null) {
+                                player.playSound(player.getLocation(), item.getSoundCompleted(), 1f, 1f);
+                            }
                         }
+                    });
+                } else {
 
-                        holder.updateInventory();
-                    } else {
-                        if(item.getSoundCompleted() != null) {
-                            player.playSound(player.getLocation(), item.getSoundCompleted(), 1f, 1f);
+                    if(item.isRemoveIfCompleted() && (this.page <= 0))
+                        return;
+
+                    guiItem.setAction(e -> {
+                        if(this.page > 0) {
+                            this.page--;
+
+                            if(item.getSound() != null) {
+                                player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
+                            }
+
+                            holder.updateInventory();
+                        } else {
+                            if(item.getSoundCompleted() != null) {
+                                player.playSound(player.getLocation(), item.getSoundCompleted(), 1f, 1f);
+                            }
                         }
-                    }
-                });
-            } else {
+                    });
+                }
 
-                if(item.isRemoveIfCompleted() && (this.page <= 0))
-                    return;
-
-                guiItem.setAction(e -> {
-                    if(this.page > 0) {
-                        this.page--;
-
-                        if(item.getSound() != null) {
-                            player.playSound(player.getLocation(), item.getSound(), 1f, 1f);
-                        }
-
-                        holder.updateInventory();
-                    } else {
-                        if(item.getSoundCompleted() != null) {
-                            player.playSound(player.getLocation(), item.getSoundCompleted(), 1f, 1f);
-                        }
-                    }
-                });
-            }
-
-            contents.setItem(slot, guiItem);
+                contents.setItem(slot, guiItem);
+            });
         });
     }
 
