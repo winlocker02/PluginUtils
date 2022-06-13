@@ -40,7 +40,7 @@ public abstract class ConfigurableInventory extends GuiInventory {
                 sound = XSound.matchXSound(section.getString("sound")).map(XSound::parseSound).orElse(null);
             }
 
-            windowItem = new ConfigurableItem(itemStack, null, null, null, sound, false);
+            windowItem = new ConfigurableItem(itemStack, null, null, Arrays.asList(slot, toSlot), sound, false);
         }
 
         if (configuration.isConfigurationSection("items")) {
@@ -82,7 +82,10 @@ public abstract class ConfigurableInventory extends GuiInventory {
             GuiItem item = new GuiItem(windowItem.getItemStack());
             item.setSound(windowItem.getSound());
 
-            contents.fillBorders(item);
+            int slot = windowItem.getSlots().get(0);
+            int toSlot = windowItem.getSlots().get(1);
+
+            contents.fillBorders(slot, toSlot, item);
         }
 
         this.items.forEach(configurableItem -> {
