@@ -57,7 +57,7 @@ public class PotionUtil {
     }
 
     public static List<PotionEffect> getPotionEffectsFromItemStack(ItemStack itemStack) {
-        if(itemStack == null || !itemStack.hasItemMeta() || !(itemStack.getItemMeta() instanceof PotionMeta))
+        if(isInvalidPotion(itemStack))
             return null;
 
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
@@ -74,7 +74,7 @@ public class PotionUtil {
         return potionEffects;
     }
 
-    public static List<ItemStack> getPotionsWithItemStack(@NonNull Inventory inventory) {
+    public static List<ItemStack> getPotionsFromInventory(@NonNull Inventory inventory) {
         List<ItemStack> itemStacks = new ArrayList<>();
 
         for (int index = 0; index < inventory.getSize(); index++) {
