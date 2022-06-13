@@ -3,9 +3,11 @@ package ru.winlocker.utils.messages.impl;
 import lombok.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
+import org.bukkit.entity.*;
 import ru.winlocker.utils.*;
 import ru.winlocker.utils.messages.*;
 
+import java.util.*;
 import java.util.function.*;
 
 public class PrimitiveMessage extends Message {
@@ -47,5 +49,10 @@ public class PrimitiveMessage extends Message {
     @Override
     public String toString() {
         return Utils.color(this.value);
+    }
+
+    @Override
+    public List<String> toList() {
+        return Collections.singletonList(this.value);
     }
 }

@@ -36,7 +36,6 @@ public class Utils {
 
     public static void sendMessage(CommandSender sender, String prefix, String text) {
         for (String line : text.split(";")) {
-            line = line.trim();
 
             if(line.startsWith("title:")) {
                 if (sender instanceof Player) {

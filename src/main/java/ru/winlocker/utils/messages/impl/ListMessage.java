@@ -51,4 +51,9 @@ public class ListMessage extends Message {
     public String toString() {
         return Utils.color(String.join("\n", this.valueList));
     }
+
+    @Override
+    public List<String> toList() {
+        return new ArrayList<>(this.valueList);
+    }
 }

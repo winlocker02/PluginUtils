@@ -3,6 +3,7 @@ package ru.winlocker.utils.messages;
 import lombok.*;
 import org.bukkit.command.*;
 
+import java.util.*;
 import java.util.function.*;
 
 @Getter
@@ -17,4 +18,5 @@ public abstract class Message {
     public abstract void sendMessage(@NonNull CommandSender sender, boolean enablePrefix, @NonNull UnaryOperator<String> apply);
 
     public abstract String toString();
+    public abstract List<String> toList();
 }
