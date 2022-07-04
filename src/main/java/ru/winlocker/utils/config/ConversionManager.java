@@ -116,12 +116,18 @@ public class ConversionManager {
 	}
 	
 	private TypeConverter<?> createConverter(ConfigType<?> type) {
-		if(Messages.class.isAssignableFrom(type.getType())) {
-			return MessagesConverter.create();
+
+		try {
+			if(Messages.class.isAssignableFrom(type.getType())) {
+				return MessagesConverter.create();
+			}
+			if(ConfigurableInventory.class.isAssignableFrom(type.getType())) {
+				return ConfigurableInventoryConverter.create(type.getType());
+			}
+		} catch (NoClassDefFoundError e) {
+			// ignore
 		}
-		if(ConfigurableInventory.class.isAssignableFrom(type.getType())) {
-			return ConfigurableInventoryConverter.create(type.getType());
-		}
+
 		if(ItemStack.class.isAssignableFrom(type.getType())) {
 			return ItemStackConverter.create();
 		}
