@@ -2,20 +2,12 @@ package ru.winlocker.utils.inventory;
 
 import com.google.common.collect.*;
 import lombok.*;
-import org.bukkit.*;
 import org.bukkit.entity.*;
-import org.bukkit.plugin.java.*;
 import ru.winlocker.utils.inventory.holder.*;
-import ru.winlocker.utils.inventory.listener.*;
 
 import java.util.*;
 
 public abstract class GuiInventory {
-
-    static {
-        JavaPlugin plugin = JavaPlugin.getProvidingPlugin(GuiInventory.class);
-        Bukkit.getPluginManager().registerEvents(new GuiListener(plugin), plugin);
-    }
 
     private final @Getter Map<Player, GuiHolder> viewers = Maps.newConcurrentMap();
 
