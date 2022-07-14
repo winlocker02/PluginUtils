@@ -20,7 +20,6 @@ public class ConversionManager {
 	
 	private final Map<ConfigType<?>, TypeConverter<?>> convertersByType;
 	private final Map<String, Class<?>> classesByName = new ConcurrentHashMap<>();
-	private final ClassLoader loader;
 	
 	{
 		convertersByType = new HashMap<>();
@@ -37,10 +36,6 @@ public class ConversionManager {
 		convertersByType.put(new ConfigType<>(Long.class), PrimitiveConverter.create(Long::parseLong, String::valueOf));
 	}
 	
-	public ConversionManager(Plugin plugin) {
-		loader = plugin.getClass().getClassLoader();
-	}
-	
 	/**
 	 * Loads a class by name, using a cache
 	 * @param name The name of the class to load
@@ -49,7 +44,7 @@ public class ConversionManager {
 	public Class<?> loadClass(String name) {
 		return classesByName.computeIfAbsent(name, k -> {
 			try {
-				return Class.forName(k, true, loader);
+				return Class.forName(k, true, getClass().getClassLoader());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				return null;

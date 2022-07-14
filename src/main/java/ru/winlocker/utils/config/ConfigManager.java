@@ -36,8 +36,8 @@ public class ConfigManager {
 	 * @param file The config file to manage
 	 * @return The ConfigManager
 	 */
-	public static ConfigManager create(Plugin plugin, File file) {
-		return new ConfigManager(plugin, file);
+	public static ConfigManager create(File file) {
+		return new ConfigManager(file);
 	}
 	
 	/**
@@ -46,27 +46,8 @@ public class ConfigManager {
 	 * @param path The config file to manage
 	 * @return The ConfigManager
 	 */
-	public static ConfigManager create(Plugin plugin, Path path) {
-		return create(plugin, path.toFile());
-	}
-	
-	/**
-	 * Creates a ConfigManager for a file in a plugin's data folder
-	 * @param plugin The plugin whose data folder should be used
-	 * @param configName The name of the config file to manage
-	 * @return The ConfigManager
-	 */
-	public static ConfigManager create(Plugin plugin, String configName) {
-		return create(plugin, plugin.getDataFolder().toPath().resolve(configName));
-	}
-	
-	/**
-	 * Creates a ConfigManager for the default config in a plugin's data folder, called config.yml
-	 * @param plugin The plugin whose data folder should be used
-	 * @return The ConfigManager
-	 */
-	public static ConfigManager create(Plugin plugin) {
-		return create(plugin, "config.yml");
+	public static ConfigManager create(Path path) {
+		return create(path.toFile());
 	}
 	
 	private FileConfiguration config;
@@ -75,20 +56,18 @@ public class ConfigManager {
 	private TypeConverter<?> converter;
 	private Object target;
 	private Class<?> targetClass;
-	private ConversionManager conversionManager;
-	
-	private ConfigManager(Plugin plugin, File file) {
-		conversionManager = new ConversionManager(plugin);
 
+	private ConversionManager conversionManager = new ConversionManager();
+	
+	private ConfigManager(File file) {
 		this.file = file;
 
 		if(!file.exists()) {
 			file.getParentFile().mkdirs();
-
-			String fileName = file.getName();
-
-			if(plugin.getResource(fileName) != null) {
-				plugin.saveResource(fileName, false);
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				throw new IllegalStateException("Failed to create new file", e);
 			}
 		}
 
