@@ -21,7 +21,7 @@ public abstract class CommandRegistry {
                     messages.get("command-unknown").sendMessage(sender);
                     return true;
                 } else {
-                    return printHelpCommands(messages, sender, 0);
+                    return printHelpCommands(messages, sender);
                 }
             }
         };
@@ -139,6 +139,10 @@ public abstract class CommandRegistry {
         return result;
     }
 
+    public boolean printHelpCommands(Messages messages, CommandSender sender) {
+        return printHelpCommands(messages, sender, 0);
+    }
+
     public boolean printHelpCommands(Messages messages, CommandSender sender, int page) {
 
         List<CommandRegistry> commands = getAllowedCommands(sender);
@@ -174,12 +178,7 @@ public abstract class CommandRegistry {
         if (commands.size() < fromIndex) {
             page = 0;
             fromIndex = 0;
-
-            if(commands.size() < count) {
-                toIndex = commands.size();
-            } else {
-                toIndex = count;
-            }
+            toIndex = Math.min(commands.size(), count);
         }
 
         commands = commands.subList(fromIndex, toIndex);
