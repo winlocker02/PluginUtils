@@ -185,6 +185,9 @@ public abstract class CommandRegistry {
 
         int index = 0;
 
+//        if(sender instanceof Player)
+//            IntStream.range(0, 20).forEach(i -> Utils.sendMessage(sender, ""));
+
         for (String line : helpFormat) {
 
             if (line.contains("{index}")) {
