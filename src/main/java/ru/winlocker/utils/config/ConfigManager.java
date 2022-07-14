@@ -81,9 +81,10 @@ public class ConfigManager {
 		conversionManager = new ConversionManager(plugin);
 
 		this.file = file;
-		file.getParentFile().mkdirs();
 
 		if(!file.exists()) {
+			file.getParentFile().mkdirs();
+
 			String fileName = file.getName();
 
 			if(plugin.getResource(fileName) != null) {

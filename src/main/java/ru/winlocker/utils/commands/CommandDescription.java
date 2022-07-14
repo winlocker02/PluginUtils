@@ -5,6 +5,7 @@ import java.lang.annotation.*;
 @Inherited
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Deprecated
 public @interface CommandDescription {
 
     String command();

@@ -5,6 +5,7 @@ import ru.winlocker.utils.messages.*;
 
 import java.util.*;
 
+@Deprecated
 public interface CommandSub {
 
     boolean execute(Messages messages, CommandSender sender, String[] args);
