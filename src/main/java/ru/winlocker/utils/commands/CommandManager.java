@@ -4,6 +4,7 @@ import lombok.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import ru.winlocker.utils.*;
+import ru.winlocker.utils.commands.v2.*;
 import ru.winlocker.utils.messages.*;
 
 import java.lang.reflect.*;
