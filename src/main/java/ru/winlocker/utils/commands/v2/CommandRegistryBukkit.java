@@ -17,7 +17,7 @@ public class CommandRegistryBukkit extends BukkitCommand {
 
     @Builder(buildMethodName = "create")
     public CommandRegistryBukkit(@NonNull Messages messages, @NonNull CommandRegistry command, List<String> aliases) {
-        super(command.getDescription().command(), command.getDescription().description(), command.getDescription().description(), aliases != null ? aliases : Collections.emptyList());
+        super(command.getDescription().getCommand(), command.getDescription().getDescription(), command.getDescription().getDescription(), aliases != null ? aliases : Collections.emptyList());
         this.command = command;
         this.messages = messages;
     }

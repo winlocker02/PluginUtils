@@ -6,7 +6,7 @@
 
     <groupId>ru.winlocker.utils</groupId>
     <artifactId>PluginUtils</artifactId>
-    <version>1.0</version>
+    <version>1.0.39</version>
     <packaging>jar</packaging>
 
     <name>PluginUtils</name>
@@ -17,6 +17,7 @@
     </properties>
 
     <build>
+        <finalName>PluginUtils</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

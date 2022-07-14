@@ -6,6 +6,7 @@ import org.bukkit.configuration.*;
 import ru.winlocker.utils.messages.impl.*;
 
 import java.util.*;
+import java.util.function.*;
 
 @Getter
 @NoArgsConstructor
@@ -47,6 +48,8 @@ public class Messages {
         return data;
     }
 
+    private static final NullableMessage NULLABLE_MESSAGE = new NullableMessage();
+
     private @Setter String prefix;
     private @Setter @NonNull Map<String, Message> messages = new HashMap<>();
 
@@ -60,17 +63,16 @@ public class Messages {
 
     public Message get(@NonNull String key) {
         val message = this.messages.get(key);
-        if(message == null) {
-            throw new IllegalArgumentException("Message key " + key + " not found.");
+        if (message == null) {
+            return NULLABLE_MESSAGE;
         }
         return message;
     }
 
     public boolean hasPermission(@NonNull CommandSender sender, @NonNull String permission) {
         if(!sender.hasPermission(permission)) {
-            if(has("no-permission")) {
-                get("no-permission").sendMessage(sender);
-            }
+            get("no-permission").sendMessage(sender);
+
             return false;
         }
         return true;
@@ -78,6 +80,14 @@ public class Messages {
 
     public boolean hasPrefix() {
         return this.prefix != null;
+    }
+
+    public void putList(@NonNull String key, @NonNull List<String> list) {
+        this.messages.put(key, new ListMessage(this, list));
+    }
+
+    public void putString(@NonNull String key, @NonNull String string) {
+        this.messages.put(key, new PrimitiveMessage(this, string));
     }
 
     public void put(@NonNull String key, @NonNull Message message) {

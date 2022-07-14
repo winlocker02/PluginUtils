@@ -53,6 +53,6 @@ public class PrimitiveMessage extends Message {
 
     @Override
     public List<String> toList() {
-        return Collections.singletonList(this.value);
+        return new ArrayList<>(Arrays.asList(this.value.split("\n")));
     }
 }

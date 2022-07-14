@@ -10,7 +10,7 @@ import java.util.function.*;
 @AllArgsConstructor
 public abstract class Message {
 
-    protected final @NonNull Messages messages;
+    protected final Messages messages;
 
     public abstract void sendMessage(@NonNull CommandSender sender);
     public abstract void sendMessage(@NonNull CommandSender sender, boolean enablePrefix);
