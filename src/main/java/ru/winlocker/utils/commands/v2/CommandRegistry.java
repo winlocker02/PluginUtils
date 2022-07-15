@@ -196,7 +196,9 @@ public abstract class CommandRegistry {
                 CommandRegistry command = commands.get(index);
 
                 line = line.replace("{index}", Utils.numberFormat((fromIndex + index) + 1));
-                line = line.replace("{description}", command.description.getDescription());
+
+                String description = command.description.getDescription();
+                line = line.replace("{description}", messages.has(description) ? messages.get(description).toString() : description);
 
                 index++;
             }
