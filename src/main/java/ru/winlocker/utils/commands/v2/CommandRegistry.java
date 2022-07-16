@@ -168,7 +168,7 @@ public abstract class CommandRegistry {
         }
 
         List<String> helpFormat = messages.get("help-format").toList();
-        int count = (int) helpFormat.stream().filter(line -> line.contains("{index}")).count();
+        int count = (int) helpFormat.stream().filter(line -> line.contains("{description}")).count();
 
         int maxPages = Math.max(1, commands.size()) / Math.max(1, count);
 
@@ -185,12 +185,9 @@ public abstract class CommandRegistry {
 
         int index = 0;
 
-//        if(sender instanceof Player)
-//            IntStream.range(0, 20).forEach(i -> Utils.sendMessage(sender, ""));
-
         for (String line : helpFormat) {
 
-            if (line.contains("{index}")) {
+            if (line.contains("{description}")) {
                 if (commands.size() <= index) continue;
 
                 CommandRegistry command = commands.get(index);

@@ -63,7 +63,7 @@ public class GuiContents {
     }
 
     public void fillBorders(int fromSlot, int toSlot, @NonNull GuiItem item) {
-        fillBorders(fromSlot % 9, fromSlot / 9, toSlot % 9, toSlot / 9, item);
+        fillBorders((fromSlot % 9) + 1, (fromSlot / 9) + 1, (toSlot % 9) + 1, (toSlot / 9) + 1, item);
     }
 
     public void fillBorders(int fromX, int fromY, int toX, int toY, @NonNull GuiItem item) {
