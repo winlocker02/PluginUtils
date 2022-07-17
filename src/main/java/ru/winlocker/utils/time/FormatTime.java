@@ -9,6 +9,7 @@ import java.util.function.*;
 
 @Getter
 @ConfigMappable
+@NoArgsConstructor(staticName = "create")
 public class FormatTime {
 
     @ConfigName

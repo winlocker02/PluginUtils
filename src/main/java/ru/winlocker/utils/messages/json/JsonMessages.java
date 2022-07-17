@@ -46,7 +46,6 @@ public class JsonMessages {
                 builder.registerTypeAdapter(getContentClass("Item"), getContentClass("ItemSerializer").newInstance());
 
                 builder.registerTypeAdapter(getChatClass("ItemTag"), getChatClass("ItemTag$Serializer").newInstance());
-
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();
             }

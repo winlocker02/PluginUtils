@@ -6,6 +6,7 @@ import org.bukkit.*;
 
 import java.lang.reflect.*;
 
+@NoArgsConstructor(staticName = "create")
 public class LocationSerializer implements JsonSerializer<Location>, JsonDeserializer<Location> {
 
     @Override
