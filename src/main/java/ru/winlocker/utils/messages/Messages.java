@@ -48,10 +48,13 @@ public class Messages {
         return data;
     }
 
-    private static final NullableMessage NULLABLE_MESSAGE = new NullableMessage();
+    private static final Message DEFAULT_NULLABLE_MESSAGE = new NullableMessage();
+
 
     private @Setter String prefix;
     private @Setter @NonNull Map<String, Message> messages = new HashMap<>();
+
+    private @Setter Message nullableMessage;
 
     public Messages(String prefix) {
         this.prefix = prefix;
@@ -64,7 +67,7 @@ public class Messages {
     public Message get(@NonNull String key) {
         val message = this.messages.get(key);
         if (message == null) {
-            return NULLABLE_MESSAGE;
+            return nullableMessage != null ? nullableMessage : DEFAULT_NULLABLE_MESSAGE;
         }
         return message;
     }

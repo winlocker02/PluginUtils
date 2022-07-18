@@ -207,14 +207,14 @@ public abstract class CommandRegistry {
         return true;
     }
 
-    protected CommandRegistry getCommand(@NonNull String label) {
+    public CommandRegistry getCommand(@NonNull String label) {
         return this.commands.stream().filter(command -> command.getDescription().getCommand().equalsIgnoreCase(label)).findFirst().orElse(null);
     }
 
     protected List<CommandRegistry> getAllowedCommands(@NonNull CommandSender sender) {
         return this.commands.stream()
                 .filter(command -> {
-                    CommandDescription description = command.getDescription();
+                    CommandDescription description = command.description;
 
                     return description.getPermission() == null || sender.hasPermission(description.getPermission());
                 }).collect(Collectors.toList());
