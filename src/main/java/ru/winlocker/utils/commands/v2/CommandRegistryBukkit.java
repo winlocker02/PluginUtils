@@ -1,6 +1,7 @@
 package ru.winlocker.utils.commands.v2;
 
 import lombok.*;
+import lombok.experimental.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.command.defaults.*;
@@ -50,6 +51,22 @@ public class CommandRegistryBukkit extends BukkitCommand {
     }
 
     public void unregister() {
-        unregister(COMMAND_MAP);
+        try {
+            Field field = COMMAND_MAP.getClass().getDeclaredField("knownCommands");
+            field.setAccessible(true);
+
+            @SuppressWarnings("unchecked")
+            Map<String, Command> commands = (Map<String, Command>) field.get(COMMAND_MAP);
+
+            commands.keySet().removeIf(label -> label.contains(getName()));
+
+            getAliases().forEach(alias -> {
+                if(commands.containsKey(alias) && commands.get(alias).toString().contains(getName())) {
+                    commands.remove(alias);
+                }
+            });
+        } catch (Exception e) {
+            throw new UnsupportedOperationException("Failed to unregister command: " + getName(), e);
+        }
     }
 }
