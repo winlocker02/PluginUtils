@@ -12,6 +12,19 @@ import java.util.*;
 @Getter
 public class CommandRegistryBukkit extends BukkitCommand {
 
+    private static final CommandMap COMMAND_MAP;
+
+    static {
+        try {
+            Field fieldCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            fieldCommandMap.setAccessible(true);
+
+            COMMAND_MAP = (CommandMap) fieldCommandMap.get(Bukkit.getServer());
+        } catch (Exception e) {
+            throw new UnsupportedOperationException("Failed to get CommandMap", e);
+        }
+    }
+
     private final @NonNull Messages messages;
     private final @NonNull CommandRegistry command;
 
@@ -33,34 +46,10 @@ public class CommandRegistryBukkit extends BukkitCommand {
     }
 
     public void register() {
-        try {
-            Field fieldCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-            fieldCommandMap.setAccessible(true);
-
-            CommandMap commandMap = (CommandMap) fieldCommandMap.get(Bukkit.getServer());
-            commandMap.register(this.getName(), this);
-        } catch (Exception e) {
-            throw new UnsupportedOperationException("Failed to register command", e);
-        }
-    }
-
-    public static void unregister(@NonNull String commandName) {
-        try {
-            Field fieldCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-            fieldCommandMap.setAccessible(true);
-
-            CommandMap commandMap = (CommandMap) fieldCommandMap.get(Bukkit.getServer());
-            Command command = commandMap.getCommand(commandName);
-
-            if(command != null) {
-                command.unregister(commandMap);
-            }
-        } catch (Exception e) {
-            throw new UnsupportedOperationException("Failed to unregister command", e);
-        }
+        COMMAND_MAP.register(this.getName(), this);
     }
 
     public void unregister() {
-        unregister(getName());
+        unregister(COMMAND_MAP);
     }
 }
